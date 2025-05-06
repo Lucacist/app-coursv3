@@ -35,11 +35,13 @@ export async function POST(req) {
     const updatedCours = await prisma.cours.update({
       where: { id: parseInt(coursId) },
       data: { 
-        folderId: folderId === null ? null : parseInt(folderId),
-        updatedAt: new Date()
+        folder: folderId === null ? 
+          { disconnect: true } : 
+          { connect: { id: parseInt(folderId) } }
       },
       include: {
-        folder: true
+        folder: true,
+        image: true
       }
     });
     

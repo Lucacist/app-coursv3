@@ -487,23 +487,60 @@ tr:hover {
 }
 
 /* Page de cours */
-.cours-grid {
+.courses-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: var(--spacing-lg);
 }
 
-.cours-card {
-  background-color: var(--background);
-  border-radius: var(--radius-md);
+.course-card {
+  background-color: var(--background-alt);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.cours-card:hover {
-  transform: translateY(-4px);
+.course-card:hover {
+  transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
+}
+
+.course-banner {
+  width: 140px;
+  min-width: 140px;
+  height: auto;
+  overflow: hidden;
+}
+
+.course-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.course-content {
+  padding: var(--spacing-md);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.course-content.no-banner {
+  padding: var(--spacing-lg);
+}
+
+/* Style pour les cartes sans image */
+.course-card.no-image {
+  flex-direction: column;
+}
+
+.course-card.no-image .course-content {
+  padding: var(--spacing-lg);
 }
 
 .cours-image {
@@ -528,7 +565,6 @@ tr:hover {
 }
 
 .ctn {
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
