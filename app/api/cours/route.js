@@ -34,48 +34,101 @@ export async function POST(req) {
         }
       });
       
-      return new Response(JSON.stringify(coursWithImage), { status: 200 });
+      return NextResponse.json(coursWithImage);
     }
 
-    return new Response(JSON.stringify(newCours), { status: 200 });
+    return NextResponse.json(newCours);
   } catch (error) {
     console.error('Erreur lors de la création du cours:', error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    return NextResponse.json(
+      { 
+        error: 'Erreur lors de la création du cours',
+        message: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      },
+      { status: 500 }
+    );
   }
 }
 
-export async function GET(req) {
+// GET - Récupérer tous les cours ou les cours d'un dossier spécifique
+export async function GET(request) {
   try {
-    const { searchParams } = new URL(req.url);
+    console.log(' Récupération des cours...');
+    
+    // Vérifier la connexion à la base de données
+    console.log(' Vérification de la connexion à la base de données...');
+    await prisma.$connect();
+    console.log(' Connexion à la base de données établie avec succès!');
+    
+    const { searchParams } = new URL(request.url);
     const folderId = searchParams.get('folderId');
     
+    // Construire la requête en fonction des paramètres
     let whereClause = {};
     
-    // Si un folderId est spécifié, filtrer par ce dossier
-    // Si folderId=null est spécifié, récupérer les cours sans dossier
-    if (folderId !== null) {
+    if (folderId) {
       if (folderId === 'null') {
-        whereClause.folderId = null;
-      } else if (folderId) {
-        whereClause.folderId = parseInt(folderId);
+        whereClause = {
+          folderId: null
+        };
+      } else {
+        whereClause = {
+          folderId: parseInt(folderId)
+        };
       }
     }
     
-    const cours = await prisma.cours.findMany({
-      where: whereClause,
-      include: {
-        folder: true,
-        image: true
-      }
-    });
+    // Exécuter la requête avec gestion d'erreur améliorée
+    console.log(` Exécution de la requête pour récupérer les cours (folderId: ${folderId || 'tous'})...`);
     
-    return new Response(JSON.stringify(cours), { status: 200 });
+    try {
+      const cours = await prisma.cours.findMany({
+        where: whereClause,
+        include: {
+          folder: true,
+          image: true
+        }
+      });
+      
+      console.log(` ${cours.length} cours récupérés avec succès!`);
+      
+      // Fermer la connexion
+      await prisma.$disconnect();
+      
+      return NextResponse.json(cours);
+    } catch (dbError) {
+      console.error(' Erreur lors de la requête à la base de données:', dbError);
+      
+      // Informations de débogage
+      console.log(' Informations de débogage:');
+      console.log(`DATABASE_URL: ${process.env.DATABASE_URL ? '***définie***' : '***non définie***'}`);
+      if (process.env.DATABASE_URL) {
+        // Masquer le mot de passe dans les logs
+        const maskedUrl = process.env.DATABASE_URL.replace(/:[^:]*@/, ':***@');
+        console.log(`URL masquée: ${maskedUrl}`);
+      }
+      
+      // Fermer la connexion en cas d'erreur
+      await prisma.$disconnect();
+      
+      throw dbError;
+    }
   } catch (error) {
-    console.error('Erreur lors de la récupération des cours:', error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    console.error(' Erreur lors de la récupération des cours:', error);
+    
+    return NextResponse.json(
+      { 
+        error: 'Erreur lors de la récupération des cours',
+        message: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      },
+      { status: 500 }
+    );
   }
 }
 
+// DELETE - Supprimer un cours
 export async function DELETE(req) {
   try {
     const { searchParams } = new URL(req.url);

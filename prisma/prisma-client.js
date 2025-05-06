@@ -1,4 +1,4 @@
-// /lib/prisma.js
+// Configuration optimisée du client Prisma pour Supabase et les environnements serverless
 import { PrismaClient } from '@prisma/client';
 
 // Options de configuration pour le client Prisma
@@ -20,7 +20,7 @@ const prismaClientSingleton = () => {
 
 // Utiliser un singleton pour éviter de créer plusieurs instances du client Prisma
 const globalForPrisma = globalThis;
-const prisma = globalForPrisma.prisma || prismaClientSingleton();
+export const prisma = globalForPrisma.prisma || prismaClientSingleton();
 
 // En développement, ne pas mettre en cache le client Prisma
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
