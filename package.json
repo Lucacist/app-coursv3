@@ -4,15 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "node vercel.js && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate",
-    "prepare-db": "node scripts/prepare-db.js"
+    "drizzle:generate": "drizzle-kit generate:pg",
+    "drizzle:push": "drizzle-kit push:pg",
+    "drizzle:migrate": "node -r dotenv/config drizzle/migrate.js",
+    "prepare-db": "npm run drizzle:push && npm run drizzle:migrate",
+    "migrate-to-drizzle": "node -r dotenv/config scripts/migrate-to-drizzle.js"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
     "bcrypt": "^5.1.1",
+    "drizzle-kit": "^0.31.1",
+    "drizzle-orm": "^0.43.1",
     "formidable": "^3.5.4",
     "next": "15.3.1",
     "next-auth": "^4.24.11",
