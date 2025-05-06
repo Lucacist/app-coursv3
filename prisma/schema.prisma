@@ -1,10 +1,9 @@
-// /prisma/schema.prisma
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  // Activer le mode shadow database pour les migrations
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 generator client {
