@@ -1,12 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "buildCommand": "node vercel-build.js && next build",
+  "buildCommand": "node prisma/vercel-prepare.js && npm run vercel-build",
   "installCommand": "npm install",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "env": {
+    "PRISMA_GENERATE_DATAPROXY": "true"
+  }
 }

@@ -1,0 +1,41 @@
+// Fichier spécial pour Vercel
+// Ce fichier sera copié sur schema.prisma pendant le déploiement
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = []
+  binaryTargets = ["native", "debian-openssl-1.1.x", "rhel-openssl-1.0.x"]
+}
+
+model Classe {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  password String
+}
+
+model Folder {
+  id    Int     @id @default(autoincrement())
+  name  String
+  cours Cours[]
+}
+
+model Cours {
+  id       Int     @id @default(autoincrement())
+  title    String
+  url      String
+  folder   Folder? @relation(fields: [folderId], references: [id])
+  folderId Int?
+  image    CoursImage?
+}
+
+model CoursImage {
+  id      Int    @id @default(autoincrement())
+  url     String
+  cours   Cours  @relation(fields: [coursId], references: [id], onDelete: Cascade)
+  coursId Int    @unique
+}
