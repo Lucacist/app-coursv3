@@ -1,13 +1,4 @@
 {
   "version": 2,
-  "buildCommand": "node vercel-build.js && npm run build",
-  "installCommand": "npm install && npx prisma generate",
-  "framework": "nextjs",
-  "outputDirectory": ".next",
-  "env": {
-    "PRISMA_GENERATE_DATAPROXY": "true",
-    "DATABASE_URL": "${DATABASE_URL}",
-    "PROF_LOGIN": "${PROF_LOGIN}",
-    "PROF_PASSWORD": "${PROF_PASSWORD}"
-  }
+  "framework": "nextjs"
 }
