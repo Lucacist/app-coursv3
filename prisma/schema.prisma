@@ -9,29 +9,27 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Eleve {
-  id        Int     @id @default(autoincrement())
-  name      String
-  email     String  @unique
-  notes     Note[]
-  createdAt DateTime @default(now())
+model Classe {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  password String
 }
 
-model Note {
-  id        Int      @id @default(autoincrement())
-  eleveId   Int
-  coursId  Int
-  note      Float
-  createdAt DateTime @default(now())
 
-  eleve     Eleve    @relation(fields: [eleveId], references: [id])
-  cours     Cours    @relation(fields: [coursId], references: [id])
+model Folder {
+  id    Int     @id @default(autoincrement())
+  name  String
+  cours Cours[]
 }
+
+
+
 
 model Cours {
-  id        Int      @id @default(autoincrement())
-  title     String
-  url       String
-  notes     Note[]
-  createdAt DateTime @default(now())
+  id       Int     @id @default(autoincrement())
+  title    String
+  url      String
+  folder   Folder? @relation(fields: [folderId], references: [id])
+  folderId Int?
 }
+

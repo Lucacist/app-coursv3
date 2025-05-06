@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import AdminDashboard from './AdminDashboard';
+import CoursContent from './CoursContent';
 
 // Fonction pour vérifier l'authentification côté serveur
 async function getUser() {
@@ -20,8 +20,8 @@ async function getUser() {
   }
 }
 
-// Page admin sécurisée côté serveur
-export default async function AdminPage() {
+// Page cours sécurisée côté serveur
+export default async function CoursPage() {
   // Vérification d'authentification côté serveur
   const user = await getUser();
   
@@ -30,11 +30,8 @@ export default async function AdminPage() {
     redirect('/login');
   }
   
-  // Si l'utilisateur n'est pas un prof, rediriger vers cours
-  if (user.role !== 'prof') {
-    redirect('/cours');
-  }
-
-  // Rendu du composant client AdminDashboard seulement si l'utilisateur est un prof
-  return <AdminDashboard />;
+  // Tous les utilisateurs authentifiés (prof et élève) peuvent accéder aux cours
+  
+  // Rendu du composant client CoursContent
+  return <CoursContent />;
 }
