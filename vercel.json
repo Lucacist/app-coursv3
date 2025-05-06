@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "node prisma/vercel-prepare.js && npm run vercel-build",
-  "installCommand": "npm install",
+  "buildCommand": "node vercel-build.js && npm run build",
+  "installCommand": "npm install && npx prisma generate",
   "framework": "nextjs",
   "outputDirectory": ".next",
   "env": {

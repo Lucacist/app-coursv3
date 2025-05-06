@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
-    "build": "prisma generate && prisma migrate deploy && next build",
+    "build": "npx prisma generate && npx prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate",
+    "postinstall": "npx prisma generate",
     "prepare-db": "node scripts/prepare-db.js"
   },
   "dependencies": {
