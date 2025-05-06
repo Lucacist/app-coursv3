@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "prepare-db": "node scripts/prepare-db.js"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
@@ -14,6 +16,7 @@
     "formidable": "^3.5.4",
     "next": "15.3.1",
     "next-auth": "^4.24.11",
+    "pg": "^8.15.6",
     "prisma": "^6.6.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

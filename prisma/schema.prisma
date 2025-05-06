@@ -1,8 +1,10 @@
 // /prisma/schema.prisma
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // Activer le mode shadow database pour les migrations
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 generator client {
