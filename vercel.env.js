@@ -3,7 +3,7 @@
 
 module.exports = {
   // URL de connexion à la base de données PostgreSQL
-  DATABASE_URL: "postgresql://postgres:Llnf20052000%402@db.ftzorhafbciiylorkfyx.supabase.co:5432/postgres",
+  DATABASE_URL: "postgresql://postgres:Llnf20052000%402@db.ftzorhafbciiylorkfyx.supabase.co:5432/postgres?sslmode=require",
   
   // Autres variables d'environnement
   NODE_ENV: "production"

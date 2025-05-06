@@ -4,6 +4,9 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "env": {
-    "PRISMA_GENERATE_DATAPROXY": "true"
+    "PRISMA_GENERATE_DATAPROXY": "true",
+    "DATABASE_URL": "postgresql://postgres:Llnf20052000%402@db.ftzorhafbciiylorkfyx.supabase.co:5432/postgres?sslmode=require",
+    "PROF_LOGIN": "prof",
+    "PROF_PASSWORD": "motdepasse"
   }
 }

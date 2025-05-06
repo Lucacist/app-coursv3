@@ -4,14 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "node scripts/vercel-setup.js && next build",
     "start": "next start",
     "lint": "next lint",
-    "drizzle:generate": "drizzle-kit generate:pg",
-    "drizzle:push": "drizzle-kit push:pg",
+    "vercel-setup": "node scripts/vercel-setup.js",
+    "test-db": "node scripts/test-db-connection.js",
+    "init-db": "node scripts/init-db.js",
+    "drizzle:generate": "drizzle-kit generate",
+    "drizzle:push": "drizzle-kit push",
     "drizzle:migrate": "node -r dotenv/config drizzle/migrate.js",
-    "prepare-db": "npm run drizzle:push && npm run drizzle:migrate",
-    "migrate-to-drizzle": "node -r dotenv/config scripts/migrate-to-drizzle.js"
+    "prepare-db": "npm run init-db"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
